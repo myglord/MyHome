@@ -17,6 +17,7 @@ A modern, multi-page real estate web application built with **React 18** and **V
   - [Styling](#styling)
 - [Backend API](#backend-api)
 - [External Integrations](#external-integrations)
+- [Environment variables](#environment-variables)
 - [Available Scripts](#available-scripts)
 
 ---
@@ -33,6 +34,7 @@ A modern, multi-page real estate web application built with **React 18** and **V
 - **Contact Form** — Functional contact form powered by EmailJS
 - **Map Location View** — Map-based property browsing
 - **Add Listing** — Property submission form with image upload
+- **Voice Navigation** — Floating mic button: say a page name (e.g. "contact", "properties") to navigate; works in Chrome/Edge
 - **Responsive Design** — Mobile menu, off-canvas navigation, and responsive grid layout
 - **SEO Support** — Dynamic page titles via React Helmet Async
 - **Scroll Restoration** — Automatic scroll position management on navigation
@@ -55,6 +57,7 @@ A modern, multi-page real estate web application built with **React 18** and **V
 | Tabs           | React Tabs                                                    |
 | Email          | EmailJS                                                       |
 | SEO            | React Helmet Async                                            |
+| Voice          | react-speech-recognition (Web Speech API)                     |
 
 ---
 
@@ -68,10 +71,12 @@ A modern, multi-page real estate web application built with **React 18** and **V
 ### Installation
 
 ```bash
-git clone https://github.com/Mrsolution07/E-rent.git
-cd E-rent
+git clone <your-repo-url>
+cd MyHome
 npm install --legacy-peer-deps
 ```
+
+Dependencies are installed into `node_modules/` (this folder is in `.gitignore` and not committed).
 
 ### Development
 
@@ -79,7 +84,9 @@ npm install --legacy-peer-deps
 npm run dev
 ```
 
-Opens the app at `http://localhost:5173` with hot module replacement.
+Opens the app at `http://localhost:5173` (or another port like `5174` if 5173 is in use) with hot module replacement.
+
+**Frontend-only (no backend):** You can run and test the app without starting the API server (e.g. to try voice commands, navigation, or UI). The app will use static property data from `src/data/` when the API is unavailable. You may see one failed request for `/api/properties` in the browser console—that’s expected and can be ignored. Start the server (see [Backend API](#backend-api)) when you need live data, contact form submission, or auth.
 
 ### Production Build
 
@@ -159,13 +166,17 @@ E-rent/
 │   │   ├── Breadcrumb.jsx, PageTitle.jsx, ScrollToTop.jsx
 │   │   ├── Pagination.jsx, Filter.jsx, SearchBox.jsx
 │   │   ├── Logo.jsx, LogoWhite.jsx, SocialList.jsx
+│   │   ├── VoiceFab.jsx              # Voice command floating mic button
 │   │   └── …
 │   │
 │   ├── contextApi/                 # React Context providers
 │   │   ├── PropertyFilterContext.jsx
 │   │   ├── MobileMenuContext.jsx
 │   │   ├── OffCanvasContext.jsx
-│   │   └── ScrollHideContext.jsx
+│   │   ├── ScrollHideContext.jsx
+│   │   ├── VoiceCommandContext.jsx # Voice navigation (speech → route)
+│   │   ├── PropertiesDataContext.jsx
+│   │   └── AuthContext.jsx
 │   │
 │   ├── data/                       # Static data (properties, blogs, menus, etc.)
 │   │   ├── CommonData/CommonData.jsx
@@ -187,6 +198,7 @@ E-rent/
 ├── index.html                      # HTML entry point
 ├── vite.config.js                  # Vite configuration
 ├── package.json                    # Dependencies and scripts
+├── .env.example                    # Optional frontend env template (copy to .env)
 └── .gitignore
 ```
 
@@ -257,6 +269,9 @@ The app uses **React Context** for cross-component state, with four providers in
 | `MobileMenuContext`      | Toggles mobile navigation menu visibility                  |
 | `OffCanvasContext`       | Toggles off-canvas side panel visibility                   |
 | `ScrollHideContext`      | Manages body scroll lock when modals/menus are open        |
+| `VoiceCommandContext`   | Voice navigation: speech recognition and command → route   |
+| `PropertiesDataContext`  | Property data for the app                                  |
+| `AuthContext`            | Auth state (user / admin)                                  |
 
 All other state is managed locally with `useState` within individual components.
 
@@ -338,6 +353,15 @@ To use your own EmailJS account, update these values in `src/components/ContactU
 ### Google Maps
 
 The contact page embeds a Google Maps iframe for location display.
+
+---
+
+## Environment variables
+
+- **Root (frontend):** Optional. Copy `.env.example` to `.env` if you need to override defaults (e.g. `VITE_API_URL`). Vite only exposes variables prefixed with `VITE_` to the client.
+- **Backend:** Required for the API. In `server/`, copy `server/.env.example` to `server/.env` and set your MySQL credentials and `PORT`. See [Backend API](#backend-api).
+
+Never commit `.env` files; they are listed in `.gitignore`. Commit only `.env.example` as a template.
 
 ---
 

@@ -133,5 +133,10 @@
       }
   }
   /* Dots Css End */
+
+/* remove arrow for react slider */
+.slick-slider .slick-arrow {
+    display: none !important;
+}
   /* ================= Slick Arrow & Dots css Start ================ */ 
   

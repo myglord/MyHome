@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react'; 
+import React, { useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "react-image-lightbox/style.css";
 import './App.css';
@@ -12,6 +13,8 @@ import HomeFive from './pages/HomeFive';
 import HomeSix from './pages/HomeSix';
 import HomeSeven from './pages/HomeSeven';
 import ScrollToTop from './common/ScrollToTop';
+import VoiceCommandProvider from './contextApi/VoiceCommandContext';
+import VoiceFab from './common/VoiceFab';
 import Property from './pages/Property';
 import PropertySidebar from './pages/PropertySidebar';
 import PropertyDetails from './pages/PropertyDetails';
@@ -67,42 +70,43 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Wrapper>
-          <Routes>
-            <Route path="/" element={<HomeOne />} />
-            <Route path="/home-two" element={<HomeTwo />} />
-            <Route path="/home-three" element={<HomeThree />} />
-            <Route path="/home-four" element={<HomeFour />} />
-            <Route path="/home-five" element={<HomeFive />} />
-            <Route path="/home-six" element={<HomeSix />} />
-            <Route path="/home-seven" element={<HomeSeven />} />
-            <Route path="/property" element={<Property />} />
-            <Route path="/property-sidebar" element={<PropertySidebar />} />
-            <Route path="/property/:title" element={<PropertyDetails />} />
-            <Route path="/map-location" element={<MapLocation />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-            <Route path="/admin/add-listing" element={<AdminAddListing />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/faq" element={<FaqPage />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/project" element={<Project />} />
-            <Route path="/project/:title" element={<ProjectDetails />} />
-
-            <Route path="/blog" element={<BlogClassic />} />
-            <Route path="/blog/:title" element={<BlogDetails />} />
-
-            <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Wrapper>
+        <VoiceCommandProvider>
+          <Wrapper>
+            <Routes>
+              <Route path="/" element={<HomeOne />} />
+              <Route path="/home-two" element={<HomeTwo />} />
+              <Route path="/home-three" element={<HomeThree />} />
+              <Route path="/home-four" element={<HomeFour />} />
+              <Route path="/home-five" element={<HomeFive />} />
+              <Route path="/home-six" element={<HomeSix />} />
+              <Route path="/home-seven" element={<HomeSeven />} />
+              <Route path="/property" element={<Property />} />
+              <Route path="/property-sidebar" element={<PropertySidebar />} />
+              <Route path="/property/:title" element={<PropertyDetails />} />
+              <Route path="/map-location" element={<MapLocation />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+              <Route path="/admin/add-listing" element={<AdminAddListing />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/faq" element={<FaqPage />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="/project" element={<Project />} />
+              <Route path="/project/:title" element={<ProjectDetails />} />
+              <Route path="/blog" element={<BlogClassic />} />
+              <Route path="/blog/:title" element={<BlogDetails />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Wrapper>
+          <ScrollToTop />
+          <VoiceFab />
+          <ToastContainer position="bottom-right" />
+        </VoiceCommandProvider>
       </BrowserRouter>
-
-      <ScrollToTop/>
     </>
   );
 }

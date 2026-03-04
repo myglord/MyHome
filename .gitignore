@@ -1,5 +1,6 @@
-# Dependencies
+# Dependencies (root and any subdirectory, e.g. server/)
 node_modules/
+**/node_modules/
 
 # Build
 dist/
