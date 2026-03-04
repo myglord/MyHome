@@ -1,4 +1,4 @@
-# E-Rent — Real Estate Platform
+# My Home 
 
 A modern, multi-page real estate web application built with **React 18** and **Vite**. E-Rent provides property listings, blog content, project showcases, and user account features across seven distinct homepage layouts.
 
