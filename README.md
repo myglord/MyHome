@@ -15,6 +15,7 @@ A modern, multi-page real estate web application built with **React 18** and **V
   - [Data Flow](#data-flow)
   - [State Management](#state-management)
   - [Styling](#styling)
+- [Backend API](#backend-api)
 - [External Integrations](#external-integrations)
 - [Available Scripts](#available-scripts)
 
@@ -176,6 +177,13 @@ E-rent/
 │   └── utility/
 │       └── Utility.jsx             # Helper functions (slug, date, etc.)
 │
+├── server/                         # Backend API (Express + MySQL)
+│   ├── index.js                    # API entry point
+│   ├── db.js                       # MySQL connection pool
+│   ├── schema.sql                  # Database schema
+│   ├── .env.example                # Environment template
+│   └── package.json
+│
 ├── index.html                      # HTML entry point
 ├── vite.config.js                  # Vite configuration
 ├── package.json                    # Dependencies and scripts
@@ -220,7 +228,7 @@ E-rent/
 
 ### Data Flow
 
-The application uses **static data files** as its data source. There is no backend API — all properties, blogs, team members, and other content are defined in JavaScript files under `src/data/`.
+The application uses **static data files** as its primary data source. Properties, blogs, team members, and other content are defined in JavaScript files under `src/data/`. An optional **backend API** (`server/`) provides REST endpoints for properties when MySQL is configured.
 
 ```
 Data Files (HomeOneData, CommonData, OthersPageData)
@@ -264,6 +272,57 @@ The app uses a **multi-layer styling approach**:
 
 ---
 
+## Backend API
+
+The `server/` folder contains an Express API with MySQL for properties and contact form handling.
+
+### Setup
+
+1. **Install server dependencies:**
+   ```bash
+   cd server && npm install
+   ```
+
+2. **Configure environment:**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your MySQL credentials
+   ```
+
+3. **Create the database:**
+   ```bash
+   mysql -u root -p < schema.sql
+   ```
+
+4. **Start the server:**
+   ```bash
+   npm run dev   # Development (with --watch)
+   npm start     # Production
+   ```
+
+The API runs at `http://localhost:3001`. During frontend development, Vite proxies `/api` requests to the server.
+
+### Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/health` | Health check |
+| GET | `/api/db-check` | Database connection status |
+| GET | `/api/properties` | List all properties |
+| GET | `/api/properties/:id` | Get single property (includes images) |
+| POST | `/api/properties` | Create property |
+| POST | `/api/contact` | Contact form (saves to `contacts` table) |
+| POST | `/api/register` | User registration |
+| POST | `/api/login` | User login |
+| GET | `/api/blog` | List blog posts |
+| GET | `/api/blog/:slug` | Get blog post by slug |
+| GET | `/api/testimonials` | List testimonials |
+| GET | `/api/favorites/:userId` | Get user's favorite properties |
+| POST | `/api/favorites` | Add favorite (`user_id`, `property_id`) |
+| DELETE | `/api/favorites/:userId/:propertyId` | Remove favorite |
+
+---
+
 ## External Integrations
 
 ### EmailJS (Contact Form)
@@ -286,7 +345,13 @@ The contact page embeds a Google Maps iframe for location display.
 
 | Command            | Description                                      |
 | ------------------ | ------------------------------------------------ |
-| `npm run dev`      | Start development server with hot reload         |
-| `npm run build`    | Install dependencies and build for production    |
+| `npm run dev`      | Start frontend dev server (Vite)                  |
+| `npm run build`    | Build frontend for production                    |
 | `npm run lint`     | Run ESLint on `.js` and `.jsx` files             |
 | `npm run preview`  | Preview the production build locally             |
+
+**Backend** (from `server/` directory):
+| Command            | Description                                      |
+| ------------------ | ------------------------------------------------ |
+| `npm run dev`      | Start API with hot reload                        |
+| `npm start`        | Start API (production)                          |
