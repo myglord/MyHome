@@ -22,9 +22,9 @@ const ListingBasicInformation = () => {
                                 <label htmlFor="Status" className="form-label">Status</label>
                                 <div className="select-has-icon icon-black">
                                     <select className="select common-input" id="Status">
-                                        <option value="1" disabled="">Status</option>
-                                        <option value="1">For Rent</option>
-                                        <option value="1">For Sell</option>
+                                        <option value="" disabled="">Status</option>
+                                        <option value="Rent">For Rent</option>
+                                        <option value="Buy">For Sell</option>
                                     </select>
                                 </div>
                             </div>
@@ -32,17 +32,21 @@ const ListingBasicInformation = () => {
                                 <label htmlFor="Type" className="form-label">Status</label>
                                 <div className="select-has-icon icon-black">
                                     <select className="select common-input" id="Type">
-                                        <option value="1" disabled=""> Type</option>
-                                        <option value="1">Apartment</option>
-                                        <option value="1">House</option>
-                                        <option value="1">Land</option>
-                                        <option value="1">Single Family</option>
+                                        <option value="" disabled=""> Type</option>
+                                        <option value="Apartments">Apartment</option>
+                                        <option value="Houses">House</option>
+                                        <option value="Office">Land</option>
+                                        <option value="Villa">Single Family</option>
                                     </select>
                                 </div>
                             </div>
                             <div className="col-sm-6 col-xs-6">
                                 <label htmlFor="Price" className="form-label">Price</label>
                                 <input type="number" className="common-input" id="Price" placeholder="USD"/>
+                            </div>
+                            <div className="col-sm-6 col-xs-6">
+                                <label htmlFor="Location" className="form-label">Location / Address</label>
+                                <input type="text" className="common-input" id="Location" placeholder="e.g. New York, USA"/>
                             </div>
                             <div className="col-sm-6 col-xs-6">
                                 <label htmlFor="Area" className="form-label">Area</label>

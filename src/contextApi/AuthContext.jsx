@@ -7,6 +7,7 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     try {
@@ -17,6 +18,7 @@ export function AuthProvider({ children }) {
         setIsAdmin(!!admin);
       }
     } catch (_) {}
+    setInitialized(true);
   }, []);
 
   const login = (userData, admin = false) => {
@@ -32,7 +34,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAdmin, login, logout }}>
+    <AuthContext.Provider value={{ user, isAdmin, initialized, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -17,6 +17,7 @@ import PropertySidebar from './pages/PropertySidebar';
 import PropertyDetails from './pages/PropertyDetails';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminRoute from './components/AdminRoute';
 import AdminAddListing from './pages/AdminAddListing';
 import MapLocation from './pages/MapLocation';
 import AboutUs from './pages/AboutUs';
@@ -80,7 +81,7 @@ function App() {
             <Route path="/property/:title" element={<PropertyDetails />} />
             <Route path="/map-location" element={<MapLocation />} />
             <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             <Route path="/admin/add-listing" element={<AdminAddListing />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/faq" element={<FaqPage />} />
