@@ -3,6 +3,7 @@ import React from 'react';
 import Header from './../common/Header';
 import MobileMenu from '../common/MobileMenu';
 import OffCanvas from '../common/OffCanvas';
+import PropertyFilterHero from '../components/PropertyFilterHero';
 import BannerTwo from '../components/BannerTwo';
 import Service from '../components/Service';
 import AboutTwo from '../components/AboutTwo';
@@ -40,6 +41,9 @@ const HomeTwo = () => {
                     offCanvasBtnClass=""
                     showContactNumber={false}
                 />
+
+                {/* Property Filter - First thing users see */}
+                <PropertyFilterHero/>
 
                 {/* Banner Two */}
                 <BannerTwo/>

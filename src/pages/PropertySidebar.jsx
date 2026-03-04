@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import Breadcrumb from '../common/Breadcrumb';
+import PropertyFilterHero from '../components/PropertyFilterHero';
 import Cta from '../components/Cta';
 import PropertySidebarSection from '../components/PropertySidebarSection';
 import PageTitle from '../common/PageTitle';
@@ -34,6 +35,9 @@ const Property = () => {
                 pageTitle="Property Sidebar"
                 pageName="Property Sidebar"
             />
+
+            {/* Property Filter - First thing users see */}
+            <PropertyFilterHero/>
 
             {/* Property Sidebar Section */}
             <PropertySidebarSection/>

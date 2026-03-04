@@ -1,2 +1,14 @@
 @import '/public/assets/sass/main.scss';
 
+/* Property Filter Hero - First thing on homepage */
+.property-filter-hero {
+  background: linear-gradient(135deg, hsl(var(--main-color) / 0.08) 0%, hsl(var(--heading-color) / 0.04) 100%);
+  &__card {
+    border: 1px solid hsl(var(--heading-color) / 0.08);
+  }
+  &__title {
+    font-family: var(--poppins-font);
+    font-weight: 600;
+    color: hsl(var(--heading-color));
+  }
+}

@@ -4,6 +4,7 @@ import Header from './../common/Header';
 import Footer from '../common/Footer';
 import MobileMenu from '../common/MobileMenu';
 import OffCanvas from '../common/OffCanvas';
+import PropertyFilterHero from '../components/PropertyFilterHero';
 import BannerThree from '../components/BannerThree';
 import AboutThree from './../components/AboutThree';
 import PropertyTypeThree from './../components/PropertyTypeThree';
@@ -41,6 +42,9 @@ const HomeThree = () => {
                     offCanvasBtnClass=""
                     showContactNumber={false}
                 />
+
+                {/* Property Filter - First thing users see */}
+                <PropertyFilterHero/>
 
                 {/* Banner Three */}
                 <BannerThree/>

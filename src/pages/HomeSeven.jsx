@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Header from './../common/Header';
+import PropertyFilterHero from '../components/PropertyFilterHero';
 import Banner from '../components/Banner';
 import Footer from '../common/Footer';
 import MobileMenu from '../common/MobileMenu';
@@ -32,6 +33,9 @@ const HomeSeven = () => {
                     offCanvasBtnClass=""
                     showContactNumber={false}
                 />
+
+                {/* Property Filter - First thing users see */}
+                <PropertyFilterHero/>
 
                 {/* Banner */}
                 <Banner/>
