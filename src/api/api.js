@@ -16,6 +16,15 @@ export const api = {
   getProperties: () => request('/properties'),
   getProperty: (id) => request(`/properties/${id}`),
   createProperty: (body) => request('/properties', { method: 'POST', body: JSON.stringify(body) }),
+  createPropertyWithImages: async (formData) => {
+    const res = await fetch(`${API_BASE}/properties/upload`, {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `Request failed: ${res.status}`);
+    return data;
+  },
   contact: (body) => request('/contact', { method: 'POST', body: JSON.stringify(body) }),
   register: (body) => request('/register', { method: 'POST', body: JSON.stringify(body) }),
   login: (body) => request('/login', { method: 'POST', body: JSON.stringify(body) }),

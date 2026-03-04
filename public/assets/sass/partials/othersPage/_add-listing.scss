@@ -63,6 +63,14 @@
         top: 0;
         cursor: pointer;
     }
+    &__add-more {
+        cursor: pointer;
+        color: hsl(var(--main));
+        font-weight: 500;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }
 .upload-text {
     text-align: center;

@@ -1,14 +1,31 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
 const pool = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadsDir),
+  filename: (req, file, cb) => {
+    const ext = (path.extname(file.originalname) || '.jpg').toLowerCase();
+    cb(null, `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`);
+  },
+});
+const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } }); // 5MB
+
 // Middleware
 app.use(cors({ origin: ['http://localhost:5173', 'http://127.0.0.1:5173'] }));
 app.use(express.json());
+app.use('/uploads', express.static(uploadsDir));
 
 // Root - helpful message
 app.get('/', (req, res) => {
@@ -90,6 +107,47 @@ app.post('/api/properties', async (req, res) => {
       ]
     );
     res.status(201).json({ id: result.insertId, message: 'Property created' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to create property' });
+  }
+});
+
+// Create property with image upload (multipart/form-data)
+app.post('/api/properties/upload', upload.array('images', 10), async (req, res) => {
+  try {
+    const { title, description, price, location, status, type, bedrooms, bathrooms, area } =
+      req.body;
+    if (!title || !price) {
+      return res.status(400).json({ error: 'Title and price are required' });
+    }
+    const files = req.files || [];
+    const imageUrl = files.length > 0 ? `/uploads/${files[0].filename}` : null;
+    const [result] = await pool.query(
+      `INSERT INTO properties (title, description, price, location, status, type, bedrooms, bathrooms, area, image_url)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        title,
+        description || null,
+        Number(price) || 0,
+        location || null,
+        status || 'active',
+        type || 'Buy',
+        parseInt(bedrooms) || 0,
+        parseInt(bathrooms) || 0,
+        area || null,
+        imageUrl,
+      ]
+    );
+    const propertyId = result.insertId;
+    // Add extra images to property_images table
+    for (let i = 1; i < files.length; i++) {
+      await pool.query(
+        'INSERT INTO property_images (property_id, image_url, sort_order) VALUES (?, ?, ?)',
+        [propertyId, `/uploads/${files[i].filename}`, i]
+      );
+    }
+    res.status(201).json({ id: propertyId, message: 'Property created' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to create property' });
