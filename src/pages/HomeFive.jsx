@@ -34,11 +34,11 @@ const HomeFive = () => {
                     showContactNumber={true}
                 />
 
-                {/* Property Filter - First thing users see */}
-                <PropertyFilterHero/>
-
                 {/* Banner */}
                 <Banner/>
+
+                {/* Property Filter */}
+                <PropertyFilterHero/>
 
              
                 {/* Footer */}

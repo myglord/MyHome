@@ -136,7 +136,7 @@ app.post('/api/register', async (req, res) => {
 });
 
 const ADMIN_EMAIL = 'admin1@gmail.com';
-const ADMIN_PASSWORD = 'admin@123';
+const ADMIN_PASSWORD = 'Admin@123';
 
 app.post('/api/login', async (req, res) => {
   try {

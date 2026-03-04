@@ -42,9 +42,6 @@ const HomeTwo = () => {
                     showContactNumber={false}
                 />
 
-                {/* Property Filter - First thing users see */}
-                <PropertyFilterHero/>
-
                 {/* Banner Two */}
                 <BannerTwo/>
 
@@ -53,6 +50,9 @@ const HomeTwo = () => {
 
                 {/* About Two */}
                 <AboutTwo/>
+
+                {/* Property Filter - Just under About */}
+                <PropertyFilterHero/>
 
                 {/* Floor Plan */}
                 <FloorPlan/>

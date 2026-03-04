@@ -45,14 +45,14 @@ const HomeOne = () => {
                     showContactNumber={false}
                 />
 
-                {/* Property Filter - First thing users see */}
-                <PropertyFilterHero/>
-
                 {/* Banner */}
                 <Banner/>
                 
                 {/* About */}
                 <About/>
+
+                {/* Property Filter - Just under About */}
+                <PropertyFilterHero/>
 
                 {/* Property */}
                 <Property/>

@@ -34,11 +34,11 @@ const HomeSeven = () => {
                     showContactNumber={false}
                 />
 
-                {/* Property Filter - First thing users see */}
-                <PropertyFilterHero/>
-
                 {/* Banner */}
                 <Banner/>
+
+                {/* Property Filter */}
+                <PropertyFilterHero/>
 
              
                 {/* Footer */}

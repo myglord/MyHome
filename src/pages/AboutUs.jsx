@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import Breadcrumb from '../common/Breadcrumb';
+import PropertyFilterHero from '../components/PropertyFilterHero';
 import Cta from '../components/Cta';
 import AboutThree from '../components/AboutThree';
 import PropertyTypeThree from '../components/PropertyTypeThree';
@@ -35,6 +36,9 @@ const AboutUs = () => {
             />
 
             <AboutThree/>    
+
+            {/* Property Filter - Just under About */}
+            <PropertyFilterHero/>
 
             <Team/>
 

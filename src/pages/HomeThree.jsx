@@ -43,14 +43,14 @@ const HomeThree = () => {
                     showContactNumber={false}
                 />
 
-                {/* Property Filter - First thing users see */}
-                <PropertyFilterHero/>
-
                 {/* Banner Three */}
                 <BannerThree/>
 
                 {/* About Three */}
                 <AboutThree/>
+
+                {/* Property Filter - Just under About */}
+                <PropertyFilterHero/>
 
                 {/* Property Type Three */}
                 <PropertyTypeThree/>
