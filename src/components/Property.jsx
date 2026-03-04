@@ -1,10 +1,11 @@
 import React from 'react';
 import SectionHeading from '../common/SectionHeading';
 import PropertyItem from './items/PropertyItem';
-import { properties } from '../data/HomeOneData/HomeOneData';
+import { usePropertiesData } from '../contextApi/PropertiesDataContext';
 import Button from '../common/Button';
 
 const Property = () => {
+    const { properties, loading } = usePropertiesData();
     return (
         <>
             {/* ============================ property Start ==================== */}
@@ -24,6 +25,9 @@ const Property = () => {
                         buttonText="View More"
                     />
 
+                    {loading ? (
+                        <div className="text-center py-5">Loading properties...</div>
+                    ) : (
                     <div className="row gy-4 property-item-wrapper">
                         {
                             properties.slice(0, 6).map((property, index) => {
@@ -44,6 +48,7 @@ const Property = () => {
                             })
                         }
                     </div>
+                    )}
 
                     <div className="text-center property__btn">
                         <Button 

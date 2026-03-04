@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { ToastContainer, toast } from 'react-toastify';
 
 import LoginRegisterThumb from '../../public/assets/images/thumbs/login-img.avif';
+import { api } from '../api/api';
 
 const LoginSection = () => {
 
@@ -37,17 +38,20 @@ const LoginSection = () => {
                 .required('Password is required'),
         }),
     
-        onSubmit: (values, { resetForm }) => {
-            
-            // Taking Data From Input Field Start
-            navigate('/account', { state: { userData: values } });
-            // Taking Data From Input Field End
-
-            resetForm({ values: "" });
-            toast.success("Congratulations! You Have Submitted Successfully.", {
-                theme: "colored",
-            });
-            console.log('You Logged in SUccessfully');
+        onSubmit: async (values, { resetForm }) => {
+            try {
+                const { user } = await api.login({ email: values.email, password: values.password });
+                const userData = { ...values, ...user };
+                navigate('/account', { state: { userData } });
+                resetForm({ values: "" });
+                toast.success("Congratulations! You Have Logged In Successfully.", {
+                    theme: "colored",
+                });
+            } catch (err) {
+                toast.error(err.message || "Invalid email or password.", {
+                    theme: "colored",
+                });
+            }
         },
     });
 

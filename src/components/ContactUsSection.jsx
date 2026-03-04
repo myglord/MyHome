@@ -2,21 +2,34 @@ import React, { useRef } from 'react';
 
 import { ToastContainer, toast } from 'react-toastify';
 import emailjs from '@emailjs/browser';
+import { api } from '../api/api';
 
 const ContactUsSection = () => {
 
     const form = useRef();
 
-    const sendEmail = (e) => {
+    const sendEmail = async (e) => {
       e.preventDefault();
-    //   Please se documentation for more information
-  
+      const formData = new FormData(form.current);
+      const payload = {
+        name: formData.get('user_name') || '',
+        email: formData.get('user_email') || '',
+        subject: formData.get('user_subject') || '',
+        message: formData.get('message') || '',
+      };
+
+      try {
+        await api.contact(payload);
+      } catch (err) {
+        console.warn('API save failed:', err.message);
+      }
+
       emailjs
         .sendForm(
-            'service_5opdqb8', // YOUR_SERVICE_ID
-            'template_tel2xio', // YOUR_TEMPLATE_ID
+            'service_5opdqb8',
+            'template_tel2xio',
             form.current, {
-            publicKey: 'TkEXMnREcdrQyndFz', // YOUR_PUBLIC_KEY
+            publicKey: 'TkEXMnREcdrQyndFz',
         })
         .then(
           () => {
@@ -24,7 +37,6 @@ const ContactUsSection = () => {
             toast.success("Congratulations! You Have Submitted Successfully.", {
                 theme: "colored",
             });
-            console.log('SUCCESS!');
           },
           (error) => {
             toast.error("Something went wrong! Your message didn't sent.", {

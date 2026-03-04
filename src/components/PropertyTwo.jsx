@@ -4,9 +4,10 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { propertyTwoTabs } from '../data/HomeThreeData/HomeThreeData';
 import SectionHeading from '../common/SectionHeading';
 import PropertyItem from './items/PropertyItem';
-import { properties } from '../data/HomeOneData/HomeOneData';
+import { usePropertiesData } from '../contextApi/PropertiesDataContext';
 
 const PropertyTwo = () => {
+    const { properties, loading } = usePropertiesData();
     return (
         <>
             <section className="property-two bg-gray-100 padding-t-60 padding-b-120">

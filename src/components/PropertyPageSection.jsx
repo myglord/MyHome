@@ -1,12 +1,13 @@
 
 import React from 'react';
 import PropertyItem from './items/PropertyItem';
-import { properties } from '../data/HomeOneData/HomeOneData';
+import { usePropertiesData } from '../contextApi/PropertiesDataContext';
 import Pagination from '../common/Pagination';
 import PropertyFilterBottom from './PropertyFilterBottom';
 import PropertyFilterForm from './PropertyFilterForm';
 
 const PropertyPageSection = () => {
+    const { properties, loading } = usePropertiesData();
     return (
         <>
             <section className="property bg-gray-100 padding-y-120">
@@ -18,6 +19,9 @@ const PropertyPageSection = () => {
                         <PropertyFilterBottom/>
                     </div>  
 
+                    {loading ? (
+                        <div className="text-center py-5">Loading properties...</div>
+                    ) : (
                     <div className="list-grid-item-wrapper property-item-wrapper show-two-item row gy-4">
                         {
                             properties.map((property, index) => {
@@ -38,6 +42,7 @@ const PropertyPageSection = () => {
                             })
                         }
                     </div>
+                    )}
 
                     {/* Pagination */}
                     <Pagination/>

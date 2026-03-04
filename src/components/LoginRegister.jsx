@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { ToastContainer, toast } from 'react-toastify';
 
 import LoginRegisterThumb from '../../public/assets/images/thumbs/login-img.avif';
+import { api } from '../api/api';
 
 const LoginRegister = ({titleText, firstNameCol, showFirstName, lastNameCol, showLastName, passwordCol, showConfirm, btnText, showForgotRemember, showTermCondition, haveAccountText, haveAccountLink, haveAccountLinkText}) => {
 
@@ -53,17 +54,40 @@ const LoginRegister = ({titleText, firstNameCol, showFirstName, lastNameCol, sho
             lastName: yup.string().min(3, "Too Short! Must be at least 3 characters long").required("First Name is required"),
         }),
     
-        onSubmit: (values, { resetForm }) => {
-          
-            // Taking Data From Input Field Start
-            navigate('/account', { state: { userData: values } })
-            // Taking Data From Input Field End
-            
-            resetForm({ values: "" });
-            toast.success("Congratulations! You Have Submitted Successfully.", {
-                theme: "colored",
-            });
-            console.log('You Logged in SUccessfully');
+        onSubmit: async (values, { resetForm }) => {
+            if (showFirstName && showLastName) {
+                try {
+                    await api.register({
+                        name: `${values.name || ''} ${values.lastName || ''}`.trim(),
+                        email: values.email,
+                        password: values.password,
+                        phone: null,
+                    });
+                    navigate('/account', { state: { userData: values } });
+                    resetForm({ values: "" });
+                    toast.success("Congratulations! You Have Registered Successfully.", {
+                        theme: "colored",
+                    });
+                } catch (err) {
+                    toast.error(err.message || "Registration failed.", {
+                        theme: "colored",
+                    });
+                }
+            } else {
+                try {
+                    const { user } = await api.login({ email: values.email, password: values.password });
+                    const userData = { ...values, ...user };
+                    navigate('/account', { state: { userData } });
+                    resetForm({ values: "" });
+                    toast.success("Congratulations! You Have Logged In Successfully.", {
+                        theme: "colored",
+                    });
+                } catch (err) {
+                    toast.error(err.message || "Invalid email or password.", {
+                        theme: "colored",
+                    });
+                }
+            }
         },
     });
 
