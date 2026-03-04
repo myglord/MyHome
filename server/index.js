@@ -10,6 +10,15 @@ const PORT = process.env.PORT || 3001;
 app.use(cors({ origin: ['http://localhost:5173', 'http://127.0.0.1:5173'] }));
 app.use(express.json());
 
+// Root - helpful message
+app.get('/', (req, res) => {
+  res.json({
+    message: 'MyHome API',
+    docs: 'http://localhost:3001/api/health',
+    endpoints: ['/api/health', '/api/db-check', '/api/properties', '/api/contact', '/api/blog', '/api/testimonials'],
+  });
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'MyHome API is running' });
