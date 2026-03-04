@@ -135,11 +135,20 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+const ADMIN_EMAIL = 'admin1@gmail.com';
+const ADMIN_PASSWORD = 'admin@123';
+
 app.post('/api/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
+    }
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      return res.json({
+        user: { id: 'admin', name: 'Admin', email: ADMIN_EMAIL },
+        isAdmin: true,
+      });
     }
     const [rows] = await pool.query(
       'SELECT id, name, email, phone, avatar_url FROM users WHERE email = ? AND password = ?',
@@ -148,7 +157,7 @@ app.post('/api/login', async (req, res) => {
     if (rows.length === 0) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
-    res.json({ user: rows[0] });
+    res.json({ user: rows[0], isAdmin: false });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to login' });

@@ -4,6 +4,7 @@ import Logo from './Logo';
 import { MobileMenuContext } from '../contextApi/MobileMenuContext';
 import { OffCanvasContext } from '../contextApi/OffCanvasContext';
 import { ScrollHideContext } from '../contextApi/ScrollHideContext';
+import { useAuth } from '../contextApi/AuthContext';
 import Button from './Button';
 import { Link } from 'react-router-dom';
 import LogoWhite from './LogoWhite';
@@ -14,7 +15,9 @@ const Header = (props) => {
 
     const { handleOffCanvas } = useContext(OffCanvasContext); 
 
-    const { handleScrollHide, handleScrollHideLg } = useContext(ScrollHideContext); 
+    const { handleScrollHide, handleScrollHideLg } = useContext(ScrollHideContext);
+
+    const { isAdmin } = useAuth(); 
 
     // Sticky header Code 
     const [stickyHeader, setStickyHeader] = useState(false);
@@ -80,11 +83,11 @@ const Header = (props) => {
                             }
                             
                             {
-                                props.showHeaderBtn && (
+                                isAdmin && (
                                     <Button 
-                                        btnLink={props.btnLink} 
+                                        btnLink="/admin/add-listing" 
                                         btnClass={props.btnClass} 
-                                        btnText={props.btnText} 
+                                        btnText="Add Listing" 
                                         spanClass={props.spanClass}
                                         iconClass="fas fa-arrow-right" 
                                     />

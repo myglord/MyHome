@@ -7,8 +7,10 @@ import OffCanvasProvider from './contextApi/OffCanvasContext.jsx'
 import ScrollHideProvider from './contextApi/ScrollHideContext.jsx'
 import PropertyFilterProvider from './contextApi/PropertyFilterContext.jsx'
 import { PropertiesDataProvider } from './contextApi/PropertiesDataContext.jsx'
+import { AuthProvider } from './contextApi/AuthContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  <AuthProvider>
   <PropertiesDataProvider>
   <PropertyFilterProvider>
         <ScrollHideProvider>
@@ -22,4 +24,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </ScrollHideProvider>
   </PropertyFilterProvider>
   </PropertiesDataProvider>
+  </AuthProvider>
 )

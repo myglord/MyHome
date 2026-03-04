@@ -15,7 +15,9 @@ import ScrollToTop from './common/ScrollToTop';
 import Property from './pages/Property';
 import PropertySidebar from './pages/PropertySidebar';
 import PropertyDetails from './pages/PropertyDetails';
-import AddListing from './pages/AddListing';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminAddListing from './pages/AdminAddListing';
 import MapLocation from './pages/MapLocation';
 import AboutUs from './pages/AboutUs';
 import FaqPage from './pages/FaqPage';
@@ -76,8 +78,10 @@ function App() {
             <Route path="/property" element={<Property />} />
             <Route path="/property-sidebar" element={<PropertySidebar />} />
             <Route path="/property/:title" element={<PropertyDetails />} />
-            <Route path="/add-new-listing" element={<AddListing />} />
             <Route path="/map-location" element={<MapLocation />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/add-listing" element={<AdminAddListing />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/checkout" element={<Checkout />} />

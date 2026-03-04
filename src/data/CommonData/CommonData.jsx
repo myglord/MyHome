@@ -115,7 +115,7 @@ export const navMenus = [
         },
         {
             text: "Add New Listing",
-            path: "/add-new-listing",
+            path: "/admin/add-listing",
         },
         {
             text: "Map Location",

@@ -6,10 +6,12 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import LoginRegisterThumb from '../../public/assets/images/thumbs/login-img.avif';
 import { api } from '../api/api';
+import { useAuth } from '../contextApi/AuthContext';
 
 const LoginSection = () => {
 
     const [showPassword, setShowPassword] = useState(false);
+    const { login } = useAuth();
     const handleShowPassword = () => {
         setShowPassword(!showPassword)
     }
@@ -40,13 +42,17 @@ const LoginSection = () => {
     
         onSubmit: async (values, { resetForm }) => {
             try {
-                const { user } = await api.login({ email: values.email, password: values.password });
-                const userData = { ...values, ...user };
-                navigate('/account', { state: { userData } });
+                const res = await api.login({ email: values.email, password: values.password });
+                const userData = { ...values, ...res.user };
+                login(userData, res.isAdmin);
+                if (res.isAdmin) {
+                    navigate('/admin');
+                    toast.success("Welcome back, Admin.", { theme: "colored" });
+                } else {
+                    navigate('/account', { state: { userData } });
+                    toast.success("Congratulations! You Have Logged In Successfully.", { theme: "colored" });
+                }
                 resetForm({ values: "" });
-                toast.success("Congratulations! You Have Logged In Successfully.", {
-                    theme: "colored",
-                });
             } catch (err) {
                 toast.error(err.message || "Invalid email or password.", {
                     theme: "colored",

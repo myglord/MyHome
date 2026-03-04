@@ -2,6 +2,7 @@ import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { accountTabs } from '../data/OthersPageData/OthersPageData';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contextApi/AuthContext';
 import AccountHomeTab from './AccountHomeTab';
 import AccountProfileTab from './AccountProfileTab';
 import AccountAddressTab from './AccountAddressTab';
@@ -15,13 +16,16 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const AccountSection = () => {
 
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+    const { logout } = useAuth();
 
     const notify = () => toast.success("You have been logged out", {
         theme: "colored", 
     })
 
-    const handleRedirectLogin = () => {
+    const handleLogout = () => {
+        logout();
+        notify();
         navigate('/login');
     }
     
@@ -50,7 +54,7 @@ const AccountSection = () => {
                                                 )
                                             })
                                         }
-                                        <button type='button' className="nav-link" onClick={()=>{notify(); handleRedirectLogin();}}> 
+                                        <button type='button' className="nav-link" onClick={handleLogout}> 
                                             <span className="icon"> <i className="fas fa-sign-out-alt"></i></span>  
                                             Logout
                                         </button>
