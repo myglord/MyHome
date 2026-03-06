@@ -4,7 +4,9 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import { toast } from 'react-toastify';
 import { navMenus } from '../data/CommonData/CommonData';
 
-export const VoiceCommandContext = createContext();
+// Kept as a separate const so Fast Refresh doesn't flag the named export as incompatible
+const VoiceCommandContext = createContext();
+export { VoiceCommandContext };
 
 const PREFIXES = ['open', 'go to', 'navigate to', 'show', 'take me to', 'go']; // this should be refined by us because people can be unpredictable with their speech
 
@@ -88,6 +90,31 @@ const VoiceCommandProvider = ({ children }) => {
   } = useSpeechRecognition();
 
   const isSupported = Boolean(browserSupportsSpeechRecognition);
+
+  // #region agent log — track listening state changes and mic availability
+  useEffect(() => {
+    fetch('http://127.0.0.1:7814/ingest/6cfe6c78-4ab3-491d-9a75-e9a192fd1add',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'ec3e71'},body:JSON.stringify({sessionId:'ec3e71',location:'VoiceCommandContext.jsx:listeningChanged',message:'listening state changed',data:{listening,isMicrophoneAvailable,transcript},timestamp:Date.now(),hypothesisId:'H-F H-G H-H'})}).catch(()=>{});
+  }, [listening]);
+  // #endregion
+
+  // #region agent log — attach raw recognition error handler
+  useEffect(() => {
+    const recognition = SpeechRecognition.getRecognition && SpeechRecognition.getRecognition();
+    if (!recognition) return;
+    const onError = (e) => {
+      fetch('http://127.0.0.1:7814/ingest/6cfe6c78-4ab3-491d-9a75-e9a192fd1add',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'ec3e71'},body:JSON.stringify({sessionId:'ec3e71',location:'VoiceCommandContext.jsx:recognition.onerror',message:'recognition error event',data:{error:e.error,message:e.message},timestamp:Date.now(),hypothesisId:'H-F H-G'})}).catch(()=>{});
+    };
+    const onEnd = (e) => {
+      fetch('http://127.0.0.1:7814/ingest/6cfe6c78-4ab3-491d-9a75-e9a192fd1add',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'ec3e71'},body:JSON.stringify({sessionId:'ec3e71',location:'VoiceCommandContext.jsx:recognition.onend',message:'recognition ended',data:{transcript,isMicrophoneAvailable},timestamp:Date.now(),hypothesisId:'H-F H-H'})}).catch(()=>{});
+    };
+    recognition.addEventListener('error', onError);
+    recognition.addEventListener('end', onEnd);
+    return () => {
+      recognition.removeEventListener('error', onError);
+      recognition.removeEventListener('end', onEnd);
+    };
+  }, []);
+  // #endregion
 
   const toggleListening = useCallback(() => {
     // #region agent log
